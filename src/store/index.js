@@ -10,12 +10,14 @@ export default createStore({
         allTypes: [],
     },
     actions: {
-        async gettingListPayments({commit, state}) {
+        async gettingListPayments({commit, state}, valueInput) {
             try {
-                const response = await axios.get(`${state.url}/payments`);
+                const response = await axios.get(`${state.url}/payments`, {
+                    params: valueInput
+                });
                 commit('listPaymentsLoad', response.data);
             } catch (error) {
-                console.error('Ошибка при выполнении запроса:', error);
+                console.error('Ошибка при получения списка платежей:', error);
             }
         },
         async gettingAllTypes({commit, state}) {
@@ -23,9 +25,17 @@ export default createStore({
                 const response = await axios.get(`${state.url}/form_tss`);
                 commit('allTypesLoad', response.data);
             } catch (error) {
-                console.error('Ошибка при выполнении запроса:', error);
+                console.error('Ошибка при выполнении запроса получения типов:', error);
             }
-        }
+        },
+        async addPayment({commit, state}, paymentDetails) {
+            try {
+                const response = await axios.post(`${state.url}/payments`, paymentDetails);
+                console.log('Успешно добавлена:', response.data);
+            } catch (error) {
+                console.error('Ошибка при выполнении запроса получения типов:', error);
+            }
+        },
     },
     mutations: {
         listPaymentsLoad(state, payload) {
@@ -35,7 +45,6 @@ export default createStore({
             state.allSources = payload.sources;
             state.allStatuses = payload.statuses;
             state.allTypes = payload.types;
-            console.log(payload)
         }
     }
 })

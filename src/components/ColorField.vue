@@ -6,7 +6,16 @@
 </template>
 
 <script setup>
-    const props = defineProps(['idType', 'fieldText'])
+    const props = defineProps({
+        idType: {
+            type: String,
+            default: null,
+        },
+        fieldText: {
+            type: String,
+            default: null,
+        }
+    })
 </script>
 
 <style scoped>

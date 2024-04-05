@@ -11,10 +11,12 @@
             :class="{'border-red-500' : checkValue}"
             :name="nameTitle"
             v-if="typeInput === 'select'"
-            :value="initialValue"
             @change="changeValue({type:'select',value:$event})">
         <option v-if="placeholderInput !== '' && placeholderInput !== null && placeholderInput !== undefined" value=""
-                disabled :selected="checkValue" hidden>{{ placeholderInput }}
+                disabled
+                :selected="(props.initialValue === '' || props.initialValue === null || props.initialValue === undefined)"
+                hidden
+        >{{ placeholderInput }}
         </option>
         <option v-for="(item, index) in arrOptions" :key="index" :value="item.id"
                 :selected="initialValue === item.id">
@@ -26,7 +28,32 @@
 <script setup>
     import {computed} from 'vue'
 
-    const props = defineProps(['nameTitle', 'typeInput', 'placeholderInput', 'arrOptions', 'initialValue', 'validationProp'])
+    const props = defineProps({
+        nameTitle: {
+            type: String,
+            default: null,
+        },
+        typeInput: {
+            type: String,
+            default: 'text',
+        },
+        placeholderInput: {
+            type: String,
+            default: null,
+        },
+        arrOptions: {
+            type: Array,
+            default: null,
+        },
+        initialValue: {
+            type: String,
+            default: null,
+        },
+        validationProp: {
+            type: Boolean,
+            default: false,
+        },
+    })
     const emit = defineEmits(['happenedChoice'])
     const checkValue = computed(() => (props.initialValue === '' || props.initialValue === null || props.initialValue === undefined) && props.validationProp)
     const changeValue = (event) => {

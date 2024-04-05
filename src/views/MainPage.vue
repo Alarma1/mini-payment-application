@@ -139,8 +139,7 @@
                             </div>
                         </div>
                         <div class="w-56">
-                            <InputComponent typeInput="text"
-                                            nameTitle="client"
+                            <InputComponent nameTitle="client"
                                             :placeholderInput="'Введите ФИО'"
                                             :initialValue="paymentDetails.client"
                                             :validationProp="validationValue"
@@ -154,8 +153,7 @@
                             </div>
                         </div>
                         <div class="w-56">
-                            <InputComponent typeInput="text"
-                                            nameTitle="contract"
+                            <InputComponent nameTitle="contract"
                                             :placeholderInput="'Введите номер договора'"
                                             :initialValue="paymentDetails.contract"
                                             :validationProp="validationValue"
@@ -350,6 +348,7 @@
         if (paymentDetails.value.type_id === '' || paymentDetails.value.type_id === null || paymentDetails.value.type_id === undefined) {
             return;
         }
+        console.log(paymentDetails.value)
         await store.dispatch('addPayment', paymentDetails.value);
         await store.dispatch('gettingListPayments');
         paymentDetails.value = {}
